@@ -38,7 +38,6 @@ client.on("message", (msg) => {
   console.log(msg.author.username + channel + ": [" + msg.content + "]");
   fs.writeFileSync("data.json", JSON.stringify(s)); //write data back to file
   if (msg.author.bot) return;
-  msg.channel.send("s: " + JSON.stringify(s));
 });
 
 function tick() {
