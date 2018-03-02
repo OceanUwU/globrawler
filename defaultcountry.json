@@ -2,8 +2,25 @@
     "points":{
         "currency":500,
         "power":1,
-        "human":5
+        "human"
     },
     "warring":null,
-    "buildings":[]
+    "allies":[],
+    "buildings":[
+        {
+            "type":"currency",
+            "id":1,
+            "level":0
+        },
+        {
+            "type":"power",
+            "id":2,
+            "level":0
+        },
+        {
+            "type":"human",
+            "id":3,
+            "level":0
+        }
+    ]
 }
