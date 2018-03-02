@@ -1,7 +1,7 @@
 {
     "points":{
         "currency":500,
-        "power":1,
+        "power":100,
         "human":0
     },
     "warring":null,
