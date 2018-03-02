@@ -2,7 +2,7 @@
     "points":{
         "currency":500,
         "power":1,
-        "human"
+        "human":0
     },
     "warring":null,
     "allies":[],
@@ -22,5 +22,6 @@
             "id":3,
             "level":0
         }
-    ]
+    ],
+    "humans":[1,2,2,3,3]
 }
