@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { CommandoClient } = require("discord.js-commando");
 const path = require("path");
+const requireDir = require('require-dir');
 const client = new CommandoClient({
   commandPrefix: "!", //it's in the name
   owner: [ //admins, can control the client
@@ -21,6 +22,9 @@ client.registry
     .registerCommandsIn(path.join(__dirname, "commands"));
 
 var s = require("./data.json"); //data
+var consts = requireDir("./consts", {
+	recurse: true
+});
 
 client.on("ready", () => { //when the client connects
   client.user.setStatus("online"); //dnd , online , ldle, invisible
@@ -34,18 +38,59 @@ client.on("message", (msg) => {
   } else {
     var channel = " in #" + msg.channel.name + ", " + msg.guild.name; 
   }
-  //log messages
-  console.log(msg.author.username + channel + ": [" + msg.content + "]");
+  console.log(msg.author.username + channel + ": [" + msg.content + "]"); //log messages
   fs.writeFileSync("data.json", JSON.stringify(s)); //write data back to file
-  if (msg.author.bot) return;
+  if (msg.author.bot) return; //stop if user is bot
 });
 
 function tick() {
   try {
+    var buildings = {};
     var s = require("./data.json"); //get data from data file
     for (var n in s.countries) { //do for each country
-      for (var w = 0; w < s.countries[w].wars.length; w++) {
-
+      if (s.countries[n].warring != null) { //if the country IS warring
+        //do war pls
+        s.countries[n].warring = null; //war finished
+      }
+    }
+    for (var n in s.countries) { //do for each country
+      buildings[n] = [];
+      for (var b = 0; b < s.countries[n].buildings.length; b++) { //for each building
+        buildings[n].push(0);
+      }
+    }
+    for (var n in s.countries) { //do for each country
+      var lastID = s.countries[n].humans[s.countries[w].humans.length - 1].id;
+      var toKill = []; //pls array
+      for (var h = 0; h < s.countries[n].humans.length; h++) { //for each human
+        s.countries[n].humans[h].age++; //they're older now!
+        if (s.countries[n].humans[h].building != null) {
+          for (var b = 0; b < s.countries[n].buildings.length; b++) {
+            if (s.countries[n].buildings[b].id == s.countries[n].humans[h].building) {
+              buildings[n][b]++;
+            }
+          }
+        }
+        if (Math.random() < 0.05) { //death
+          toKill.push(s.countries[n].humans[h].id); //add to death list
+        }
+      }
+      for (var h = 0; h < toKill.length; h++) {
+        for (var checking = 0; checking < s.countries[n].humans.length; checking++) { //for each human
+          if (toKill[h] == s.countries[n].humans[checking].id) { //check if human is on kill list
+            s.countries[n].humans.splice(); //kill
+          }
+        }
+      }
+    }
+    for (var n in s.countries) { //do for each country
+      for (var b = 0; b < s.countries[n].buildings.length; b++) { //for each building
+        if (consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level] <= buildings[n][b]) { //if enough employees
+          if (s.countries[n].points.currency <= consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].m) { //if enough currency points
+            s.countries[n].points.currency -= consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].m; //take maintenance
+            s.countries[n].points[s.countries[n].buildings[b].type] += consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].p; //get production
+          }
+        }
       }
     }
     fs.writeFile("data.json", JSON.stringify(s)); //write data back to file
@@ -54,4 +99,4 @@ function tick() {
   }
 }
 
-client.login(require("./token.json"));
+client.login(require("./token.json")); //login
