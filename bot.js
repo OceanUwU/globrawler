@@ -41,6 +41,9 @@ client.on("message", (msg) => {
   console.log(msg.author.username + channel + ": [" + msg.content + "]"); //log messages
   fs.writeFileSync("data.json", JSON.stringify(s)); //write data back to file
   if (msg.author.bot) return; //stop if user is bot
+  if (msg.content == "tick") {
+    tick();
+  }
 });
 
 function tick() {
@@ -60,7 +63,7 @@ function tick() {
       }
     }
     for (var n in s.countries) { //do for each country
-      var lastID = s.countries[n].humans[s.countries[w].humans.length - 1].id;
+      var lastID = s.countries[n].humans[s.countries[n].humans.length - 1].id;
       var toKill = []; //pls array
       for (var h = 0; h < s.countries[n].humans.length; h++) { //for each human
         s.countries[n].humans[h].age++; //they're older now!
@@ -78,15 +81,16 @@ function tick() {
       for (var h = 0; h < toKill.length; h++) {
         for (var checking = 0; checking < s.countries[n].humans.length; checking++) { //for each human
           if (toKill[h] == s.countries[n].humans[checking].id) { //check if human is on kill list
-            s.countries[n].humans.splice(); //kill
+            s.countries[n].humans.splice(checking, 1); //kill
           }
         }
       }
     }
     for (var n in s.countries) { //do for each country
       for (var b = 0; b < s.countries[n].buildings.length; b++) { //for each building
-        if (consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level] <= buildings[n][b]) { //if enough employees
-          if (s.countries[n].points.currency <= consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].m) { //if enough currency points
+        console.log(consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].e + ", " + buildings[n][b])
+        if (consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].e <= buildings[n][b]) { //if enough employees
+          if (s.countries[n].points.currency >= consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].m) { //if enough currency points
             s.countries[n].points.currency -= consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].m; //take maintenance
             s.countries[n].points[s.countries[n].buildings[b].type] += consts.buildings[s.countries[n].buildings[b].type][s.countries[n].buildings[b].level].p; //get production
           }

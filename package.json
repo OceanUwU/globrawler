@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/975miles/GloBrawler/issues"
   },
-  "homepage": "https://github.com/975miles/GloBrawler#readme"
+  "homepage": "https://github.com/975miles/GloBrawler#readme",
+  "dependencies": {
+    "require-dir": "^1.0.0"
+  }
 }
