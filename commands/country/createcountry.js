@@ -8,8 +8,8 @@ module.exports = class ReplyCommand extends Command {
             name: "createcountry",
             aliases:["newcountry","makecountry"],
             group: "country",
-            memberName: "say",
-            description: "Sends a DM to someone.",
+            memberName: "createcountry",
+            description: "Creates a country for you.",
             examples: ["createcountry Weebtopia"],
             guildOnly: true,
             args: [
@@ -31,12 +31,8 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
-    hasPermission (msg) {
-        if (s.countries[msg.author.id] != undefined) return "You already have a country!";
-        return true;
-    }
-
     run (msg, { name }) {
+        if (s.countries[msg.author.id] != undefined) return msg.say("You already have a country!");
         s.countries[msg.author.id] = require("../../defaultcountry.json");
         s.countries[msg.author.id].name = name;
         return msg.say("Yup. Done.");

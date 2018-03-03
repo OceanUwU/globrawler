@@ -63,7 +63,7 @@ function tick() {
       }
     }
     for (var n in s.countries) { //do for each country
-      var lastID = s.countries[n].humans[s.countries[n].humans.length - 1].id;
+      var lastID = s.countries[n].humans[s.countries[n].humans.length - 1].id; //get the id of the newest human
       var toKill = []; //pls array
       for (var h = 0; h < s.countries[n].humans.length; h++) { //for each human
         s.countries[n].humans[h].age++; //they're older now!
@@ -85,6 +85,15 @@ function tick() {
           }
         }
       }
+      for (var hp = 0; hp < s.countries[n].points.human; hp++) { //for each human point
+        lastID++; //add to lastID
+        s.countries[n].humans.push({ //create human
+          "building":null, //assigned to no building
+          "id":lastID, //with a unique ID
+          "age":0 //with age of 0
+        });
+      }
+      s.countries[n].points.human = 0; //reset human points
     }
     for (var n in s.countries) { //do for each country
       for (var b = 0; b < s.countries[n].buildings.length; b++) { //for each building
