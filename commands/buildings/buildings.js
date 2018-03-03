@@ -9,7 +9,7 @@ module.exports = class ReplyCommand extends Command {
         super(client, {
             name: "buildings",
             aliases:["builds","buildlist","allbuildings"],
-            group: "general",
+            group: "buildings",
             memberName: "buildings",
             description: "Shows a list of buildings.",
             examples: ["buildings"]
