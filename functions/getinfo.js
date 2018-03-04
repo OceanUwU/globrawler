@@ -1,9 +1,9 @@
-const s = require("../data.json").countries;
+const s = require("../data.json");
 const requireDir = require('require-dir');
 var consts = requireDir("../consts", {
 	recurse: true
 });
-var functions = requireDir("../consts", {
+var functions = requireDir("./", {
 	recurse: true
 });
 

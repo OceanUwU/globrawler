@@ -2,7 +2,7 @@
 GloBrawl is a game where several countries battle to take over the globe.
 
 ## Starting a game
-An admin will start a game and you will be notified. Go to #commandspam and do !createcountry [countryname]. You won't need to do much on the first tick
+An admin will start a game and you will be notified. Go to #commandspam and do !createcountry [countryname]. This is the only command you'll need to do in the server. You should do the rest in DMs. You won't need to do much on the first tick.
 
 ## Points
 There are **2** types of points.

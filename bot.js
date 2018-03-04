@@ -15,7 +15,9 @@ client.registry
     .registerGroups([ //get command groups
         ["general", "Commands that don\'t have anything to do with the main bot"],
         ["country","Manage your country."],
-        ["buildings","Manage your buildings."]
+        ["buildings","Manage your buildings."],
+        ["humans","Set your ~~slaves~~ humans to work."],
+        ["war","Cause ＤＥＡＴＨ. Or prevent it. It's your choice."]
     ])
     .registerDefaultGroups()
     .registerDefaultCommands() //get default commands

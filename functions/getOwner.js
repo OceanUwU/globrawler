@@ -1,4 +1,4 @@
-const s = require("../data.json").countries;
+const s = require("../data.json");
 
 module.exports = function (name) {
     for (var c in s.countries) {
