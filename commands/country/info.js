@@ -43,9 +43,14 @@ module.exports = class ReplyCommand extends Command {
 
     run (msg, { name }) {
         if (!name) {
-            name = msg.author.id;
+            if (s.countries[msg.author.id]) {
+                name = s.countries[msg.author.id].name;
+            } else {
+                return msg.say("You don\'t have a country. Specify which country to get info on.");
+            }
         }
-        s.countries[msg.author.id].name = name;
+        var info = functions.getinfo(name);
+        var output = "Info on " + text;
         return msg.say("Yup. Done.");
     }
 };

@@ -3,8 +3,14 @@ const requireDir = require('require-dir');
 var consts = requireDir("../consts", {
 	recurse: true
 });
+var functions = requireDir("../consts", {
+	recurse: true
+});
 
 module.exports = function (country) {
+    if (!s.countries[country]) {
+        country = functions.getOwner(country);
+    }
     if (s.countries[country]) {
         var obj = {
             "spaceUsed": 0,
