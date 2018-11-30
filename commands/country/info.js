@@ -1,12 +1,8 @@
 const fs = require("fs");
 const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
-var consts = requireDir("../../consts", {
-	recurse: true
-});
-var functions = requireDir("../../functions", {
-	recurse: true
-});
+var consts = requireDir("../../consts", {recurse: true});
+var functions = requireDir("../../functions", {recurse: true});
 var s = require("../../data.json");
 
 module.exports = class ReplyCommand extends Command {
@@ -46,14 +42,15 @@ module.exports = class ReplyCommand extends Command {
         }
         var owner = functions.getOwner(name)
         var info = functions.getInfo(owner);
-        var output = "Info on " + name + ": ```\n\
-        Space used: " + info.spaceUsed + "/" + consts.config.countrySize + "\n\
-        Currency points: " + s.countries[owner].points.currency + "\n\
-        Power points: " + s.countries[owner].points.power + "\n\
-        Humans: " + s.countries[owner].humans.length + "\n\
-        Humans working buildings: \n";
+        var output = "Info on " + name + ": ```md" +
+        "\nSpace used: " + info.spaceUsed + "/" + consts.config.countrySize +
+        "\nCurrency points: " + s.countries[owner].points.currency +
+        "\nPower points: " + s.countries[owner].points.power +
+        "\nAbout to attack: " + (s.countries[owner].warring ? s.countries[s.countries[owner].warring].name : "nobody") +
+        "\nHumans: " + s.countries[owner].humans.length +
+        "\nHumans working buildings: \n";
         for (var b = 0; b < s.countries[owner].buildings.length; b++) {
-            output += consts.buildings[s.countries[owner].buildings[b].type][s.countries[owner].buildings[b].level].n + " (id " + s.countries[owner].buildings[b].id + "): " + info.buildings[s.countries[owner].buildings[b].id] + "/" + consts.buildings[s.countries[owner].buildings[b].type][s.countries[owner].buildings[b].level].e + "\n";
+            output += "\t" + consts.buildings[s.countries[owner].buildings[b].type][s.countries[owner].buildings[b].level].n + " (id " + s.countries[owner].buildings[b].id + "): " + info.buildings[s.countries[owner].buildings[b].id] + "/" + consts.buildings[s.countries[owner].buildings[b].type][s.countries[owner].buildings[b].level].e + "\n";
         }
         output += "```";
         return msg.say(output);

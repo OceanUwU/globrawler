@@ -17,23 +17,18 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg) {
-        var output = "";
+        var output = "```md";
         for (var type in consts.buildings) {
-            output += "\n" + type + "\n";
+            output += "\n\n<" + type + ">";
             for (var l = 0; l < consts.buildings[type].length; l++) {
-                output += "\nLevel " + (l + 1) + ": " + consts.buildings[type][l].n + "\n";
-                if (l == 0) {
-                    output += "Build "; 
-                } else {
-                    output += "Upgrade ";
-                }
-                output += "cost: " + consts.buildings[type][l].c + "\n" + " \
-                Maintenance: " + consts.buildings[type][l].m + "\n \
-                Employees needed: " + consts.buildings[type][l].e + "\n \
-                Produces: " + consts.buildings[type][l].p + "\n";
+                output += "\nLevel [" + (l + 1) + "](" + consts.buildings[type][l].n + ")\n ";
+                output += (l == 0 ? "Build" : "Upgrade") + " cost: " + consts.buildings[type][l].c +
+                "\n Maintenance: " + consts.buildings[type][l].m +
+                "\n Employees needed: " + consts.buildings[type][l].e +
+                "\n Produces: " + consts.buildings[type][l].p + "";
             }
-            fs.writeFile("../../all.txt", output);
         }
-        return msg.channel.send({file: "../../all.txt"});
+        output += "```";
+        return msg.channel.send(output);
     }
 };

@@ -12,6 +12,6 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg) {
-        return msg.say("https://github.com/975miles/GloBrawler/blob/master/tutorial.md");
+        return msg.say("https://docs.google.com/document/d/1Kh6Ojz2xQovdBZkRLpTZCKpwtsdg2liCu5G545b6_GA/edit?usp=sharing");
     }
 };

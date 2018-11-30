@@ -21,19 +21,10 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
-    run (msg, { name }) {
-        if (!name) {
-            if (s.countries[msg.author.id]) {
-                name = s.countries[msg.author.id].name;
-            } else {
-                return msg.say("You don\'t have a country. Specify which country to get info on.");
-            }
-        }
-        var owner = functions.getOwner(name)
-        var info = functions.getInfo(owner);
+    run (msg) {
         var output = "```";
         for (var c in s.countries) {
-            output += s.countries[c].name + "\n";
+            output += (this.client.users.get(c) ? this.client.users.get(c).tag : c) + ": " + s.countries[c].name + "\n";
         }
         output += "```";
         return msg.say(output);

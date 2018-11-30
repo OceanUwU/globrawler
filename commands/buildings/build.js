@@ -1,18 +1,21 @@
-const s = require("../../data.json");
+var s = require("../../data.json");
 const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
 const fs=require('fs');
-var consts = requireDir("../../consts", {
+const consts = requireDir("../../consts", {
+	recurse: true
+});
+const functions = requireDir("../../functions", {
 	recurse: true
 });
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
         super(client, {
             name: "build",
-            aliases:["make","create"],
+            aliases:["make"],
             group: "buildings",
             memberName: "build",
-            description: "Builds a building",
+            description: "Builds a building. Once you build one, you can't destroy it.",
             examples: ["build human","build currency","build power"],
             args: [
                 {
@@ -20,7 +23,7 @@ module.exports = class ReplyCommand extends Command {
                     prompt: "What type of building would you like to build? currency / human / power",
                     type: "string",
                     validate: text => {
-                        if (consts.buildings[text.toLowerCase()] != undefined) return true;
+                        if (consts.buildings[text.toLowerCase()]) return true;
                         return "That's not a type of building! Use the buildings command to get the types available.";
                     }
                 }
@@ -32,6 +35,7 @@ module.exports = class ReplyCommand extends Command {
         if (!s.countries[msg.author.id]) { //check if user owns country
             return msg.say("Make a country first.");
         }
+        if (functions.getInfo(msg.author.id).spaceUsed >= consts.config.countrySize) return msg.say("Your country is full.")
         if (s.countries[msg.author.id].points.currency < consts.buildings[type][0].c) { //check if enough currency points
             return msg.say("You don't have enough currency points to build this!");
         }

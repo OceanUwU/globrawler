@@ -1,9 +1,9 @@
 const s = require("../data.json");
 const requireDir = require('require-dir');
-var consts = requireDir("../consts", {
+const consts = requireDir("../consts", {
 	recurse: true
 });
-var functions = requireDir("./", {
+const functions = requireDir("./", {
 	recurse: true
 });
 
@@ -12,8 +12,8 @@ module.exports = function (country, id) {
         country = functions.getOwner(country);
     }
     if (s.countries[country]) {
-        for (var b = 0; h < s.countries[country].buildings.length; b++) {
-            if (s.countries[country].humans[b].id == id) {
+        for (var b = 0; b < s.countries[country].buildings.length; b++) {
+            if (s.countries[country].buildings[b].id == id) {
                 return b;
             }
         }

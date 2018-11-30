@@ -10,6 +10,7 @@ module.exports = class ReplyCommand extends Command {
             examples: ["say flynn What are you doing?"],
             clientPermissions: ["MANAGE_MESSAGES"],
             guildOnly: true,
+            ownerOnly: true,
             args: [
                 {
                     key: "user",
@@ -29,7 +30,7 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
-    run (msg, { user, content }) {
+    run (msg, {user, content}) {
         msg.delete();
         return user.send(content);
     }
