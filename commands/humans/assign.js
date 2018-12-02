@@ -7,7 +7,6 @@ const consts = requireDir("../../consts", {
 const functions = requireDir("../../functions", {
 	recurse: true
 });
-var s = require("../../data.json");
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -24,6 +23,7 @@ module.exports = class ReplyCommand extends Command {
                     prompt: "Which human do you want to assign?",
                     type: "string",
                     validate: (text, msg) => {
+                        let s = functions.readData();
                         if (s.countries[msg.author.id]) {
                             if (functions.humanFromID(msg.author.id, Number(text)) !== false) return true;
                             return "You have no human with that ID.";
@@ -36,6 +36,7 @@ module.exports = class ReplyCommand extends Command {
                     prompt: "Which building do you want to assign it to?",
                     type: "string",
                     validate: (text, msg) => {
+                        let s = functions.readData();
                         if (s.countries[msg.author.id]) {
                             if (functions.buildingFromID(msg.author.id, Number(text)) !== false) return true;
                             return "You have no building with that ID.";
@@ -48,7 +49,9 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg, {human, building}) {
+        let s = functions.readData();
         s.countries[msg.author.id].humans[functions.humanFromID(msg.author.id, human)].building = s.countries[msg.author.id].buildings[functions.buildingFromID(msg.author.id, building)].id
+        functions.writeData(s);
         return msg.say("Done.");
     }
 };

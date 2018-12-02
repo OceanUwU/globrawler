@@ -4,6 +4,9 @@ const fs=require('fs');
 var consts = requireDir("../../consts", {
 	recurse: true
 });
+const functions = requireDir("../../functions", {
+	recurse: true
+});
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
         super(client, {

@@ -1,8 +1,10 @@
-var s = require("../../data.json");
 const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
 const fs=require('fs');
 const consts = requireDir("../../consts", {
+	recurse: true
+});
+const functions = requireDir("../../functions", {
 	recurse: true
 });
 
@@ -22,7 +24,9 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg, {tickLength, ticks}) {
-      s.setup.ticksLeft = 1;
-      return msg.say("The game will be ended after the next tick.");
+        let s = functions.readData();
+        s.setup.game = false;
+        functions.writeData(s);
+        return msg.say("The game has ended.");
     }
 };

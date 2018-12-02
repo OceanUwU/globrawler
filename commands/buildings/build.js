@@ -1,4 +1,3 @@
-var s = require("../../data.json");
 const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
 const fs=require('fs');
@@ -8,6 +7,7 @@ const consts = requireDir("../../consts", {
 const functions = requireDir("../../functions", {
 	recurse: true
 });
+
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
         super(client, {
@@ -23,6 +23,7 @@ module.exports = class ReplyCommand extends Command {
                     prompt: "What type of building would you like to build? currency / human / power",
                     type: "string",
                     validate: text => {
+                        let s = functions.readData();
                         if (consts.buildings[text.toLowerCase()]) return true;
                         return "That's not a type of building! Use the buildings command to get the types available.";
                     }
@@ -32,6 +33,7 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg, { type }) {
+        let s = functions.readData();
         if (!s.countries[msg.author.id]) { //check if user owns country
             return msg.say("Make a country first.");
         }
@@ -45,6 +47,7 @@ module.exports = class ReplyCommand extends Command {
             "id":(s.countries[msg.author.id].buildings[s.countries[msg.author.id].buildings.length - 1].id) + 1,
             "level":0
         });
+       functions.writeData(s);
         return msg.say("Uh huh. Now you should get some humans to work here.");
     }
 };

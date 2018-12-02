@@ -3,7 +3,6 @@ const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
 var consts = requireDir("../../consts", {recurse: true});
 var functions = requireDir("../../functions", {recurse: true});
-var s = require("../../data.json");
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -21,6 +20,7 @@ module.exports = class ReplyCommand extends Command {
                     type: "string",
                     default: "",
                     validate: text => {
+                        let s = functions.readData();
                         if (text) {
                             if (functions.getOwner(text)) return true;
                             return "That isn\'t a country...";
@@ -33,6 +33,7 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg, { name }) {
+        let s = functions.readData();
         if (!name) {
             if (s.countries[msg.author.id]) {
                 name = s.countries[msg.author.id].name;

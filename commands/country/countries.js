@@ -7,7 +7,6 @@ var consts = requireDir("../../consts", {
 var functions = requireDir("../../functions", {
 	recurse: true
 });
-var s = require("../../data.json");
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -22,6 +21,8 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg) {
+        let s = functions.readData();
+
         var output = "```";
         for (var c in s.countries) {
             output += (this.client.users.get(c) ? this.client.users.get(c).tag : c) + ": " + s.countries[c].name + "\n";

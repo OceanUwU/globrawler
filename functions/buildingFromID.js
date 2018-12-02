@@ -1,4 +1,4 @@
-const s = require("../data.json");
+const fs = require("fs");
 const requireDir = require('require-dir');
 const consts = requireDir("../consts", {
 	recurse: true
@@ -8,6 +8,7 @@ const functions = requireDir("./", {
 });
 
 module.exports = function (country, id) {
+    let s = functions.readData();
     if (!s.countries[country]) {
         country = functions.getOwner(country);
     }

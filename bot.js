@@ -2,8 +2,8 @@ const fs = require("fs");
 const { CommandoClient } = require("discord.js-commando");
 const path = require("path");
 const requireDir = require('require-dir');
-const consts = requireDir("./consts", {recurse: true});
-const functions = requireDir("./functions", {recurse: true});
+const consts = requireDir("consts", {recurse: true});
+const functions = requireDir("functions", {recurse: true});
 
 const client = new CommandoClient({
   commandPrefix: "!", //it's in the name
@@ -25,7 +25,7 @@ client.registry
     .registerDefaultCommands() //get default commands
     .registerCommandsIn(path.join(__dirname, "commands"));
 
-var s = require("./data.json"); //data
+var s = functions.readData() //data
 var tickTimer;
 client.on("ready", () => { //when the client connects
   client.user.setStatus("online"); //dnd , online , ldle, invisible
@@ -45,7 +45,7 @@ client.on("message", (msg) => {
 
 function tick() {
   try {
-    var s = JSON.parse(fs.readFileSync("./data.json")); //get data from data file
+    let s = functions.readData(); //get data from data file
     let buildings = {};
     let toKill = {};
 
@@ -112,6 +112,8 @@ function tick() {
       for (let h in toKill[n]) {
         if (toKill[n][h]) { //check if human is on kill list
           s.countries[n].humans.splice(functions.humanFromID(n, h), 1); //kill
+        } else {
+          delete toKill[n][h];
         }
       }
 
@@ -129,8 +131,18 @@ function tick() {
     s.setup.tick++; //
     s.setup.ticksLeft--; //decrease amount of ticks left
 
-    let news = "hi lol";
-    //make news here pls
+    let news = "";
+    for (let n in s.countries) {
+      news += s.countries[n].name + ":\n\
+      Currency points: " + s.countries[n].points.currency + "\n\
+      Power points: " + s.countries[n].points.power + "\n\
+      Humans: " + s.countries[n].humans.length + "\n\
+      \n\
+      Humans lost: " + Object.keys(toKill[n]).join(", ") + "\n\
+      \n\n";
+      console.log(toKill[n])
+    }
+
     fs.writeFile("news.txt", news); //write news to file
     client.channels.get(consts.config.newsChannel).send("Tick " + s.setup.tick + ": ", {file: 'news.txt'});
 
@@ -139,7 +151,7 @@ function tick() {
       client.channels.get(consts.config.newsChannel).send("Game ended after " + s.setup.tick + " ticks.")
     }
     
-    fs.writeFileSync("data.json", JSON.stringify(s)); //write data back to file
+    functions.writeData(s); //write data back to file
   } catch (err) { //stop if an error
     console.log(err) //log error
   }
@@ -148,7 +160,7 @@ function tick() {
 function main() {
   client.login(require("./token.json")); //login
   tickInterval = setInterval(function() {
-    var s = JSON.parse(fs.readFileSync("./data.json"));
+    let s = functions.readData();
     if (s.setup.game == true) {
       tick();
     } else {

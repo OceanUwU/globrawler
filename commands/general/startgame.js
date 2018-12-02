@@ -1,17 +1,13 @@
-var s = require("../../data.json");
 const { Command } = require("discord.js-commando");
 const requireDir = require('require-dir');
 const fs=require('fs');
 const consts = requireDir("../../consts", {
 	recurse: true
 });
-var defaultdata = JSON.parse(fs.readFileSync("defaultdata.json", "utf8", function(err,data) {
-    if (err) {
-        return console.log(err)
-    }
-    console.log(data)
-}));
-
+const functions = requireDir("../../functions", {
+	recurse: true
+});
+var defaultdata = JSON.parse(fs.readFileSync("defaultdata.json"));
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -41,10 +37,13 @@ module.exports = class ReplyCommand extends Command {
     }
 
     run (msg, {ticks}) {
+        let s = functions.readData();
         s = defaultdata;
-        
         s.setup = {"tick":0,"ticksLeft":ticks,"game":true};
-        fs.writeFile("data.json", JSON.stringify(s));
+        functions.writeData(s);
+        for (let leader of msg.guild.roles.get(consts.config.leaderRole).members) {
+            leader[1].removeRole(consts.config.leaderRole);
+        }
         msg.delete();
         return msg.say("Game started. " + ticks + " ticks left until the game ends.");
     }

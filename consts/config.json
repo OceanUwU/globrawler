@@ -2,7 +2,7 @@
     "countrySize":25,
     "leaderRole":"514131303596032010",
     "newsChannel":"514153536339181577",
-    "tickLength":"180000",
+    "tickLength":"10000",
     "normalDeathChance":0.05,
     "attackingDeathChance":0.15,
     "defendingDeathChance":0.075,
