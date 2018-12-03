@@ -142,7 +142,6 @@ function tick() {
       \n\
       Humans lost: " + Object.keys(toKill[n]).join(", ") + "\n\
       \n\n";
-      console.log(toKill[n])
     }
 
     fs.writeFile("news.txt", news); //write news to file
