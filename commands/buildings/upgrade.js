@@ -23,6 +23,7 @@ module.exports = class ReplyCommand extends Command {
                     prompt: "What's the ID of the building you'd like to upgrade?",
                     type: "string",
                     validate: (text, msg) => {
+                        let s = functions.readData();
                         if (s.countries[msg.author.id]) {
                             let s = functions.readData();
                             if (functions.buildingFromID(msg.author.id, Number(text)) !== false) return true;
