@@ -144,8 +144,12 @@ function tick() {
       \n\n";
     }
 
-    fs.writeFile("news.txt", news); //write news to file
-    client.channels.get(consts.config.newsChannel).send("Tick " + s.setup.tick + ": ", {file: 'news.txt'});
+    if (output.length > 1995) {
+			fs.writeFileSync("news.txt", news);
+			client.channels.get(consts.config.newsChannel).send("Tick " + s.setup.tick + ": ", {file: 'news.txt'});
+    } else {
+      client.channels.get(consts.config.newsChannel).send("Tick " + s.setup.tick + ": ```" + news + "```");
+    }
 
     if (s.setup.ticksLeft <= 0) {
       s.setup.game = false;
