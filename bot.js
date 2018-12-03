@@ -78,7 +78,9 @@ function tick() {
     //production
     let lastID = {}
     for (let n in s.countries) { //do for each country
-      lastID[n] = s.countries[n].humans[s.countries[n].humans.length - 1].id; //get the id of the newest human and add 1
+      if (s.countries[n].humans.length > 0) {
+        lastID[n] = s.countries[n].humans[s.countries[n].humans.length - 1].id; //get the id of the newest human
+      }
       let workBuilds = []
       for (let b = 0; b < s.countries[n].buildings.length; b++) {
         workBuilds.push(0)
