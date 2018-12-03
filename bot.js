@@ -144,7 +144,7 @@ function tick() {
       \n\n";
     }
 
-    if (output.length > 1995) {
+    if (news.length > 1995) {
 			fs.writeFileSync("news.txt", news);
 			client.channels.get(consts.config.newsChannel).send("Tick " + s.setup.tick + ": ", {file: 'news.txt'});
     } else {
