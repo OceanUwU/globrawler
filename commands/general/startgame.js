@@ -20,7 +20,6 @@ module.exports = class ReplyCommand extends Command {
             examples: ["startgame 1 10"],
             clientPermissions: ["MANAGE_MESSAGES"],
             guildOnly: true,
-            ownerOnly: true,
             args: [
                 {
                     key: "ticks",
@@ -36,7 +35,12 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
+    hasPermission(msg) {
+        return this.client.isOwner(msg.author);
+    }
+
     run (msg, {ticks}) {
+        console.log(this.client.options.owner)
         let s = functions.readData();
         s = defaultdata;
         s.setup = {"tick":0,"ticksLeft":ticks,"game":true};

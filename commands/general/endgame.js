@@ -18,9 +18,12 @@ module.exports = class ReplyCommand extends Command {
             description: "Stops the game.",
             examples: ["startgame"],
             clientPermissions: ["MANAGE_MESSAGES"],
-            guildOnly: true,
-            ownerOnly: true
+            guildOnly: true
         });
+    }
+
+    hasPermission(msg) {
+        return this.client.isOwner(msg.author);
     }
 
     run (msg, {tickLength, ticks}) {
