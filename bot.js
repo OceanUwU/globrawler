@@ -8,7 +8,8 @@ const functions = requireDir("functions", {recurse: true});
 const client = new CommandoClient({
   commandPrefix: "!", //it's in the name
   owner: [ //admins, can control the client
-    "106068236000329728"
+    "106068236000329728",
+    "261259166990073857"
   ],
   disableEveryone: true //Do you want chaos? Disable disableEveryone! It's free!
 });
