@@ -6,7 +6,7 @@ const consts = requireDir("consts", {recurse: true});
 const functions = requireDir("functions", {recurse: true});
 
 const client = new CommandoClient({
-  commandPrefix: "!", //it's in the name
+  commandPrefix: "g/", //it's in the name
   owner: [ //admins, can control the client
     "106068236000329728",
     "261259166990073857"
