@@ -30,7 +30,7 @@ var s = functions.readData() //data
 var tickTimer;
 client.on("ready", () => { //when the client connects
   client.user.setStatus("online"); //dnd , online , ldle, invisible
-  client.user.setActivity("#info"); //sets game
+  client.user.setActivity(client.commandPrefix + "help"); //sets game
   console.log("Bot up."); //logs to console when online
 });
 
